@@ -10,6 +10,12 @@
 # Environment
 .env
 
+# Dependencies
+node_modules/
+
+# Generated
+baml_client/
+
 # Claude Code
 .claude/
 .mcp.json

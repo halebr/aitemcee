@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>aitemcee</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>aitemcee</h1>
+    <p class="tagline">AI-powered conference walk-on songs</p>
+  </header>
+
+  <main>
+    <!-- Step 1: Input -->
+    <section id="step-1" class="step active">
+      <h2>Step 1: Tell us about the talk</h2>
+
+      <div class="form-group">
+        <label for="abstract-input">Talk Abstract</label>
+        <div class="input-toggle">
+          <button class="toggle-btn active" data-target="abstract-text">Text</button>
+          <button class="toggle-btn" data-target="abstract-file">Upload</button>
+        </div>
+        <div id="abstract-text" class="input-panel active">
+          <textarea id="abstract-input" rows="5" placeholder="Paste your talk abstract here..."></textarea>
+        </div>
+        <div id="abstract-file" class="input-panel">
+          <input type="file" id="abstract-file-input" accept=".pdf,.docx,.doc,.txt">
+          <p class="help-text">PDF, DOCX, or TXT (max 5MB)</p>
+          <div id="abstract-file-status" class="file-status"></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="bio-input">Speaker Bio</label>
+        <div class="input-toggle">
+          <button class="toggle-btn active" data-target="bio-text">Text</button>
+          <button class="toggle-btn" data-target="bio-file">Upload</button>
+        </div>
+        <div id="bio-text" class="input-panel active">
+          <textarea id="bio-input" rows="4" placeholder="Tell us about the speaker..."></textarea>
+        </div>
+        <div id="bio-file" class="input-panel">
+          <input type="file" id="bio-file-input" accept=".pdf,.docx,.doc,.txt">
+          <p class="help-text">PDF, DOCX, or TXT (max 5MB)</p>
+          <div id="bio-file-status" class="file-status"></div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="song-input">Guilty Pleasure Song</label>
+          <input type="text" id="song-input" placeholder='e.g. "Never Gonna Give You Up"'>
+        </div>
+        <div class="form-group">
+          <label for="artist-input">Artist</label>
+          <input type="text" id="artist-input" placeholder='e.g. "Rick Astley"'>
+        </div>
+      </div>
+
+      <button id="generate-style-btn" class="primary-btn" disabled>Generate Style</button>
+      <div id="step1-error" class="error-message"></div>
+    </section>
+
+    <!-- Step 2: Style Review -->
+    <section id="step-2" class="step">
+      <h2>Step 2: Review the style</h2>
+
+      <div class="form-group">
+        <label for="title-input">Song Title</label>
+        <input type="text" id="title-input" placeholder="Song title...">
+      </div>
+
+      <div class="form-group">
+        <label for="style-input">Style Description</label>
+        <textarea id="style-input" rows="3" placeholder="Style description..."></textarea>
+      </div>
+
+      <div class="button-row">
+        <button id="back-to-step1" class="secondary-btn">Back</button>
+        <button id="generate-lyrics-btn" class="primary-btn">Generate Lyrics</button>
+      </div>
+      <div id="step2-error" class="error-message"></div>
+    </section>
+
+    <!-- Step 3: Lyrics Review -->
+    <section id="step-3" class="step">
+      <h2>Step 3: Review the lyrics</h2>
+
+      <div class="form-group">
+        <label for="lyrics-input">Lyrics</label>
+        <textarea id="lyrics-input" rows="8" placeholder="Lyrics..."></textarea>
+      </div>
+
+      <div class="button-row">
+        <button id="back-to-step2" class="secondary-btn">Back</button>
+        <button id="generate-song-btn" class="primary-btn">Generate Song</button>
+      </div>
+      <div id="step3-error" class="error-message"></div>
+    </section>
+
+    <!-- Step 4: Result -->
+    <section id="step-4" class="step">
+      <h2>Step 4: Your walk-on song</h2>
+
+      <div id="generation-progress" class="progress-area">
+        <div class="spinner"></div>
+        <p id="progress-message">Generating your song...</p>
+      </div>
+
+      <div id="audio-result" class="audio-result hidden">
+        <div id="song-title-display" class="song-title"></div>
+        <audio id="audio-player" controls></audio>
+        <div class="audio-actions">
+          <a id="download-btn" class="secondary-btn" download>Download</a>
+          <button id="start-over-btn" class="secondary-btn">Start Over</button>
+        </div>
+      </div>
+
+      <div id="step4-error" class="error-message"></div>
+    </section>
+
+    <!-- Song History -->
+    <section id="song-history" class="history-section hidden">
+      <h3>Generated Songs</h3>
+      <ul id="history-list"></ul>
+    </section>
+  </main>
+
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="spinner"></div>
+    <p id="loading-message">Working...</p>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+  <script type="module">
+    import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.155/pdf.min.mjs';
+    window.pdfjsLib = pdfjsLib;
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.9.155/pdf.worker.min.mjs';
+  </script>
+  <script src="js/api.js"></script>
+  <script src="js/documentParser.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
