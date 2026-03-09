@@ -16,6 +16,7 @@ function GenerateStyle(abstract: string, bio: string, guilty_pleasure_song: stri
     adapted to feel like a fun conference intro. Keep the style description
     as comma-separated musical descriptors (genre, instruments, mood, tempo).
     Maximum 200 characters for the style field.
+    IMPORTANT: Always include "prominent lead vocals, vocals forward in the mix" in the style.
 
     The title should be catchy and relate to their talk topic.
 
@@ -45,6 +46,10 @@ function GenerateLyrics(style: string, title: string, abstract: string, bio: str
     The lyrics should be fun, energetic, and reference the speaker's
     talk topic. Keep them SHORT -- this is a walk-on song, not a full
     track. Maximum 500 characters total. Use newlines between lines.
+
+    IMPORTANT: The vocals must start IMMEDIATELY -- no instrumental intro.
+    Write lyrics that begin from the very first beat of the song.
+    Start with a strong, attention-grabbing opening line.
 
     Do NOT include explicit, offensive, or inappropriate content.
     Keep it professional but fun -- think "conference hype music."

@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import * as songStore from '../services/songStore.js';
-import * as suno from '../services/suno.js';
+import * as elevenlabs from '../services/elevenlabs.js';
 import { createError } from '../middleware/errorHandler.js';
 
 const router = Router();
@@ -20,20 +20,14 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 
     const entry = songStore.create({ style, lyrics, title: title || 'Untitled' });
 
-    // Fire off Suno generation asynchronously
+    // Fire off ElevenLabs generation asynchronously
     (async () => {
       try {
         songStore.update(entry.songId, { status: 'generating' });
-        const { taskId } = await suno.generate({ title: entry.title, lyrics, style });
-        songStore.update(entry.songId, { taskId, status: 'polling' });
-
-        const result = await suno.pollUntilComplete(taskId, (status) => {
-          songStore.update(entry.songId, { status });
-        });
-
+        const { audioUrl } = await elevenlabs.generate({ songId: entry.songId, title: entry.title, lyrics, style });
         songStore.update(entry.songId, {
           status: 'complete',
-          audioUrl: result.audioUrl,
+          audioUrl,
         });
       } catch (err: any) {
         console.error(`Song generation failed for ${entry.songId}:`, err.message);
